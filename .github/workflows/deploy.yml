@@ -9,7 +9,7 @@ on:
   
 
 jobs:
-  on-success:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Prepare
