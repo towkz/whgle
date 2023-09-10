@@ -1,16 +1,19 @@
 name: deploy
 
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: '05 22 * * *'
+  workflow_run:
+    workflows: [check]
+    branches: [master]
+    types:
+      - completed
+  
 
 jobs:
-  deploy:
+  on-success:
     runs-on: ubuntu-latest
     steps:
       - name: Prepare
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - uses: okteto/login@latest
         with:
           token: ${{ secrets.OKTETO_TOKEN }}
@@ -20,7 +23,7 @@ jobs:
           namespace: ${{ secrets.OKTETO_NAME }}
 
       - name: Destroy stack
-        uses: okteto/destroy-stack@latest
+        uses: okteto/destroy-stack@main
 
       - name: Create stack
-        uses: okteto/deploy-stack@latest
+        uses:  okteto/deploy-stack@latest
