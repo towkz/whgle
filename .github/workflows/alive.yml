@@ -1,4 +1,4 @@
-name: alive
+name: keepalive
 on:
   schedule:
     - cron: "18 0 * * *"
